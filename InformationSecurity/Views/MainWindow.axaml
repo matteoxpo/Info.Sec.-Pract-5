@@ -1,1 +1,95 @@
-<Window    x:Class="InformationSecurity.Views.MainWindow"    xmlns="https://github.com/avaloniaui"    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"    xmlns:vm="using:InformationSecurity.ViewModels"    Title="Information security"    d:DesignHeight="450"    d:DesignWidth="800"    Icon="/Assets/avalonia-logo.ico"    WindowState="Maximized"    mc:Ignorable="d">    <Design.DataContext>        <vm:MainWindowViewModel />    </Design.DataContext>    <Grid>        <StackPanel            HorizontalAlignment="Center"            Orientation="Vertical"            Spacing="10">            <StackPanel                Margin="0,20,0,0"                HorizontalAlignment="Center"                Orientation="Vertical"                Spacing="10">                <Label                    Background="Black"                    Content="Данные для шифровки"                    Foreground="White" />                <TextBox Text="{Binding Key, Mode=TwoWay}" Watermark="Ключ" />                <TextBox Text="{Binding Message, Mode=TwoWay}" Watermark="Сообщение" />                <TextBox Text="{Binding PathToFile, Mode=TwoWay}" Watermark="Путь до файла(необязательно)" />                <Label                    Background="Black"                    Content="Что считываем из файла"                    Foreground="White" />                <ComboBox HorizontalAlignment="Stretch" SelectedIndex="{Binding SelectedIndexComboBox}">                    <ComboBoxItem>                        <TextBlock                            LineHeight="24"                            Text="Ключ"                            TextAlignment="Left" />                    </ComboBoxItem>                    <ComboBoxItem>                        <TextBlock                            LineHeight="24"                            Text="Cообщение"                            TextAlignment="Left" />                    </ComboBoxItem>                </ComboBox>            </StackPanel>            <Button                Margin="0,10,0,0"                HorizontalAlignment="Center"                Command="{Binding ReadFromFile}"                Content="Читать из файла" />            <StackPanel                Margin="0,10,0,0"                HorizontalAlignment="Center"                Orientation="Horizontal"                Spacing="10">                <Button                    HorizontalAlignment="Center"                    Command="{Binding}"                    Content="Шифрование" />                <Button                    HorizontalAlignment="Center"                    Command="{Binding}"                    Content="Дешифрование" />            </StackPanel>            <StackPanel                Margin="0,10,0,0"                HorizontalAlignment="Center"                Orientation="Vertical"                Spacing="10">                <Label                    Background="Black"                    Content="Итоговая строка"                    Foreground="White" />                <Button                    HorizontalAlignment="Center"                    Command="{Binding}"                    Content="Вывод в двоичном виде" />            </StackPanel>        </StackPanel>    </Grid></Window>
+<Window
+    x:Class="InformationSecurity.Views.MainWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:InformationSecurity.ViewModels"
+    Title="Information security"
+    d:DesignHeight="450"
+    d:DesignWidth="450"
+    Icon="/Assets/avalonia-logo.ico"
+    mc:Ignorable="d">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
+
+    <Grid>
+        <StackPanel
+            HorizontalAlignment="Center"
+            Orientation="Vertical"
+            Spacing="10">
+            <StackPanel
+                Margin="0,20,0,0"
+                HorizontalAlignment="Center"
+                Orientation="Vertical"
+                Spacing="10">
+                <Label
+                    Background="Black"
+                    Content="Данные для шифровки"
+                    Foreground="White" />
+                <TextBox Text="{Binding Key, Mode=TwoWay}" Watermark="Ключ" />
+                <TextBox Text="{Binding Message, Mode=TwoWay}" Watermark="Сообщение" />
+                <TextBox Text="{Binding PathToFile, Mode=TwoWay}" Watermark="Путь до файла(необязательно)" />
+                <Label
+                    Background="Black"
+                    Content="Что считываем из файла"
+                    Foreground="White" />
+                <ComboBox HorizontalAlignment="Stretch" SelectedIndex="{Binding SelectedIndexComboBox}">
+                    <ComboBoxItem>
+                        <TextBlock
+                            LineHeight="24"
+                            Text="Ключ"
+                            TextAlignment="Left" />
+                    </ComboBoxItem>
+                    <ComboBoxItem>
+                        <TextBlock
+                            LineHeight="24"
+                            Text="Cообщение"
+                            TextAlignment="Left" />
+                        <TextBlock
+                            LineHeight="24"
+                            Text="Ключ"
+                            TextAlignment="Left" />
+                    </ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+
+            <Button
+                Margin="0,10,0,0"
+                HorizontalAlignment="Center"
+                Command="{Binding ReadFromFile}"
+                Content="Читать из файла" />
+
+            <StackPanel
+                Margin="0,10,0,0"
+                HorizontalAlignment="Center"
+                Orientation="Horizontal"
+                Spacing="10">
+
+                <Button
+                    HorizontalAlignment="Center"
+                    Command="{Binding EncryptOrDecrypt}"
+                    Content="Шифрование" />
+                <Button
+                    HorizontalAlignment="Center"
+                    Command="{Binding EncryptOrDecrypt}"
+                    Content="Дешифрование" />
+            </StackPanel>
+
+            <StackPanel
+                Margin="0,10,0,0"
+                HorizontalAlignment="Center"
+                Orientation="Vertical"
+                Spacing="10">
+                <TextBlock
+                    LineHeight="24"
+                    Text="{Binding Res}"
+                    TextAlignment="Left" />
+               
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+
+</Window>
