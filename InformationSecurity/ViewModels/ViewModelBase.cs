@@ -1,1 +1,1 @@
-﻿using ReactiveUI;namespace InformationSecurity.ViewModels{    public class ViewModelBase : ReactiveObject    {    }}
+﻿using ReactiveUI;namespace InformationSecurity.ViewModels{    public class ViewModelBase : ReactiveObject    {    }}
