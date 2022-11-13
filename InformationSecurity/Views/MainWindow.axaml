@@ -1,42 +1,58 @@
 <Window
+    Icon="/Assets/avalonia-logo.ico"
+    MaxHeight="500"
+    MaxWidth="320"
+    MinHeight="500"
+    MinWidth="320"
+    Title="Информационная безопасность - шифрование"
+    d:DesignHeight="500"
+    d:DesignWidth="320"
+    mc:Ignorable="d"
     x:Class="InformationSecurity.Views.MainWindow"
     xmlns="https://github.com/avaloniaui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:InformationSecurity.ViewModels"
-    Title="Information security"
-    d:DesignHeight="450"
-    d:DesignWidth="450"
-    Icon="/Assets/avalonia-logo.ico"
-    mc:Ignorable="d">
-
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Design.DataContext>
         <vm:MainWindowViewModel />
     </Design.DataContext>
-
     <Grid>
+
+        <Panel>
+            <ExperimentalAcrylicBorder IsHitTestVisible="False">
+                <ExperimentalAcrylicBorder.Material>
+                    <ExperimentalAcrylicMaterial
+                        BackgroundSource="None"
+                        MaterialOpacity="0.5"
+                        TintColor="White"
+                        TintOpacity="0.5" />
+                </ExperimentalAcrylicBorder.Material>
+            </ExperimentalAcrylicBorder>
+        </Panel>
+
         <StackPanel
-            HorizontalAlignment="Center"
+            HorizontalAlignment="Left"
+            Margin="30,0,0,0"
             Orientation="Vertical"
             Spacing="10">
             <StackPanel
-                Margin="0,20,0,0"
                 HorizontalAlignment="Center"
+                Margin="0,20,0,0"
                 Orientation="Vertical"
                 Spacing="10">
                 <Label
-                    Background="Black"
+                    Background="Green"
                     Content="Данные для шифровки"
                     Foreground="White" />
-                <TextBox Text="{Binding Key, Mode=TwoWay}" Watermark="Ключ" />
-                <TextBox Text="{Binding Message, Mode=TwoWay}" Watermark="Сообщение" />
-                <TextBox Text="{Binding PathToFile, Mode=TwoWay}" Watermark="Путь до файла(необязательно)" />
+                <TextBox Text="{Binding Key, Mode=TwoWay}" Watermark="*Ключ" />
+                <TextBox Text="{Binding Message, Mode=TwoWay}" Watermark="*Сообщение" />
+                <TextBox Text="{Binding PathToFile, Mode=TwoWay}" Watermark="Путь до файла" />
                 <Label
-                    Background="Black"
+                    Background="Green"
                     Content="Что считываем из файла"
                     Foreground="White" />
-                <ComboBox HorizontalAlignment="Stretch" SelectedIndex="{Binding SelectedIndexComboBox}">
+                <ComboBox HorizontalAlignment="Stretch" SelectedIndex="{Binding SelectedIndexComboBoxFile}">
                     <ComboBoxItem>
                         <TextBlock
                             LineHeight="24"
@@ -48,48 +64,66 @@
                             LineHeight="24"
                             Text="Cообщение"
                             TextAlignment="Left" />
-                        <TextBlock
-                            LineHeight="24"
-                            Text="Ключ"
-                            TextAlignment="Left" />
                     </ComboBoxItem>
                 </ComboBox>
             </StackPanel>
-
             <Button
-                Margin="0,10,0,0"
-                HorizontalAlignment="Center"
+                Background=""
                 Command="{Binding ReadFromFile}"
-                Content="Читать из файла" />
-
-            <StackPanel
-                Margin="0,10,0,0"
+                Content="Читать из файла"
                 HorizontalAlignment="Center"
+                Margin="0,10,0,0" />
+            <StackPanel
+                HorizontalAlignment="Center"
+                Margin="0,10,0,0"
                 Orientation="Horizontal"
                 Spacing="10">
-
                 <Button
-                    HorizontalAlignment="Center"
                     Command="{Binding EncryptOrDecrypt}"
-                    Content="Шифрование" />
+                    Content="Шифрование"
+                    HorizontalAlignment="Center" />
                 <Button
-                    HorizontalAlignment="Center"
                     Command="{Binding EncryptOrDecrypt}"
-                    Content="Дешифрование" />
+                    Content="Дешифрование"
+                    HorizontalAlignment="Center" />
             </StackPanel>
 
+
+
+
             <StackPanel
-                Margin="0,10,0,0"
                 HorizontalAlignment="Center"
+                Margin="0,10,0,0"
                 Orientation="Vertical"
                 Spacing="10">
                 <TextBlock
                     LineHeight="24"
-                    Text="{Binding Res}"
+                    Text="Результаты"
                     TextAlignment="Left" />
-               
+
+                <TextBlock
+                    Foreground="Blue"
+                    IsVisible="{Binding IsButtonClicked}"
+                    LineHeight="24"
+                    Text="{Binding StringRes}"
+                    TextAlignment="Left"
+                    TextDecorations="Underline" />
+                <TextBlock
+                    Foreground="Blue"
+                    IsVisible="{Binding IsButtonClicked}"
+                    LineHeight="24"
+                    Text="{Binding HexRes}"
+                    TextAlignment="Left"
+                    TextDecorations="Underline" />
             </StackPanel>
         </StackPanel>
-    </Grid>
 
+        <TextBlock
+            HorizontalAlignment="Center"
+            IsVisible="{Binding IsButtonNotClicked}"
+            LineHeight="40"
+            Margin="0,400,0,0"
+            Text="Пока что не было совершено действий"
+            TextAlignment="Left" />
+    </Grid>
 </Window>

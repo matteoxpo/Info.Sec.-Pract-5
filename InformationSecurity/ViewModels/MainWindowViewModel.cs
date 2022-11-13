@@ -3,6 +3,10 @@ using System.IO;
 using ReactiveUI;
 using System.Text;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using Microsoft.CodeAnalysis.Operations;
+using Microsoft.VisualBasic;
 
 namespace InformationSecurity.ViewModels
 {
@@ -11,12 +15,32 @@ namespace InformationSecurity.ViewModels
          public MainWindowViewModel()
         {
             bRes = new List<byte>();
+            IsButtonClicked = false;
         }
         
         public StringBuilder Result{
             get => _result;
         }
 
+        public bool IsButtonClicked
+        {
+            get => _isButtonClicked;
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _isButtonClicked, value);
+                IsButtonNotClicked = !value;
+            }
+        }
+
+        private bool _isButtonClicked;
+        private bool _isButtonNotClicked;
+        
+        public bool IsButtonNotClicked
+        {
+            get => !_isButtonClicked;
+            set => this.RaiseAndSetIfChanged(ref _isButtonNotClicked, value);
+        }
+        
 
         public string Key
         {
@@ -36,20 +60,42 @@ namespace InformationSecurity.ViewModels
             set => this.RaiseAndSetIfChanged(ref _pathToFile, value);
         }
         
-        public int SelectedIndexComboBox
+        public int SelectedIndexComboBoxFile
         {
-            get => _selectedIndexComboBox;
-            set => this.RaiseAndSetIfChanged(ref _selectedIndexComboBox, value);
+            get => _selectedIndexComboBoxFile;
+            set => this.RaiseAndSetIfChanged(ref _selectedIndexComboBoxFile, value);
         }
         
-       
+        
+        
+        
+        
+        public string StringRes 
+        { 
+            get => "Array of chars:" + _stringRes; 
+            set => this.RaiseAndSetIfChanged(ref _stringRes, value); 
+        }
 
+        public string HexRes
+        {
+            get => "Hex:" +_hexRes;
+            set => this.RaiseAndSetIfChanged(ref _hexRes, value);
+        }
+        
+        
         public void ReadFromFile()
         {
             try
             {
-                if (_selectedIndexComboBox == 0) Key = File.ReadAllText(_pathToFile);
-                if (_selectedIndexComboBox == 1) Message = File.ReadAllText(_pathToFile);
+                switch (SelectedIndexComboBoxFile)
+                {
+                    case 0:
+                        Key = File.ReadAllText(PathToFile);
+                        break;
+                    case 1 :
+                        Message = File.ReadAllText(PathToFile);
+                        break;
+                }
             }
             catch (Exception)
             {
@@ -61,28 +107,44 @@ namespace InformationSecurity.ViewModels
 
         public void EncryptOrDecrypt()
         {
-            byte[] bMessage = Encoding.Default.GetBytes(Message);
-            byte[] bKey = Encoding.Default.GetBytes(Key);
-            bRes.Clear();
-            for (int i = 0; i < bMessage.Length; i++){
-                bRes.Add((byte)(bMessage[i] ^ bKey[i % bKey.Length]));
+            
+            try
+            {
+                byte[] bMessage = Encoding.Default.GetBytes(Message);
+                byte[] bKey = Encoding.Default.GetBytes(Key);
+                string trtanspMess = new string(Message.Reverse().ToArray());
+
+                bRes.Clear();
+                for (int i = 0; i < bMessage.Length; i++)
+                {
+                    bRes.Add((byte)(bMessage[i] ^ bKey[i % bKey.Length]));
+                }
+
+                StringRes = Encoding.Default.GetString(bRes.ToArray());
+                HexRes = Convert.ToHexString(bRes.ToArray());
+                IsButtonClicked = true;
             }
-            Res = Encoding.Default.GetString(bRes.ToArray());
+            catch (Exception)
+            {
+                var message = MessageBox.Avalonia.MessageBoxManager
+                    .GetMessageBoxStandardWindow("Ошибка", "Поля не были проинциализированы");
+                message.Show();
+            }
         }
 
-        private string _key;
         
-        public string Res 
-        { 
-            get => _res; 
-            set => this.RaiseAndSetIfChanged(ref _res, value); 
-        }
-        private string _res;
+       
+        private string _stringRes;
+        private string _hexRes;
 
+        
+        
+        
         List<byte> bRes;
         private StringBuilder  _result;
         private string _message;
+        private string _key;
         private string _pathToFile;
-        private int _selectedIndexComboBox;
+        private int _selectedIndexComboBoxFile;
     }
 }
