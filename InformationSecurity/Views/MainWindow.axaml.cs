@@ -1,0 +1,1 @@
+using Avalonia.Controls;namespace InformationSecurity.Views{    public partial class MainWindow : Window    {        public MainWindow()        {            InitializeComponent();        }    }}
